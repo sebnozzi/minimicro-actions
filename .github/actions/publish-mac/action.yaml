@@ -1,0 +1,42 @@
+name: publish-webgl
+description: "Package and publish a Mac version"
+
+inputs:
+  itchio_api_key: 
+    description: 'Itch.io API key for publishing'
+    required: true
+  itchio_username: 
+    description: 'Itch.io user-name'
+    required: true
+  itchio_game_id: 
+    description: 'Itch.io game-id'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/download-artifact@v3
+      with:
+        name: user-minidisk
+
+    - name: Download Mac template
+      run: wget --no-verbose -O minimicro-mac.zip https://miniscript.org/files/minimicro-mac.zip
+      shell: bash
+         
+    - name: Unzip Mac template
+      run: unzip minimicro-mac.zip -d minimicro-mac
+      shell: bash
+    
+    - name: Copy user.minidisk
+      run: cp user.minidisk ./minimicro-mac
+      shell: bash
+
+    - name: Publish Mac template to itch.io
+      uses: KikimoraGames/itch-publish@v0.0.3
+      with:
+        butlerApiKey: ${{ inputs.itchio_api_key }}
+        gameData: ./minimicro-mac
+        itchUsername: ${{ inputs.itchio_username }}
+        itchGameId: ${{ inputs.itchio_game_id }}
+        buildChannel: mac

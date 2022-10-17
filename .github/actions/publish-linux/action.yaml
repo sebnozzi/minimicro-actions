@@ -1,0 +1,44 @@
+name: publish-linux
+description: "Package and publish a Linux version"
+
+inputs:
+  itchio_api_key: 
+    description: 'Itch.io API key for publishing'
+    required: true
+  itchio_username: 
+    description: 'Itch.io user-name'
+    required: true
+  itchio_game_id: 
+    description: 'Itch.io game-id'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/download-artifact@v3
+      with:
+        name: user-minidisk
+
+    - name: Download Linux template
+      run: wget --no-verbose -O minimicro-linux.tar.gz https://miniscript.org/files/minimicro-linux.tar.gz
+      shell: bash
+
+    - name: Unpack Linux template
+      run: |
+        mkdir -p ./minimicro-linux
+        tar -xvf minimicro-linux.tar.gz -C ./minimicro-linux
+      shell: bash
+
+    - name: Copy user.minidisk
+      run: cp user.minidisk ./minimicro-linux
+      shell: bash
+
+    - name: Publish Linux template to itch.io
+      uses: KikimoraGames/itch-publish@v0.0.3
+      with:
+        butlerApiKey: ${{ inputs.itchio_api_key }}
+        gameData: ./minimicro-linux
+        itchUsername: ${{ inputs.itchio_username }}
+        itchGameId: ${{ inputs.itchio_game_id }}
+        buildChannel: linux

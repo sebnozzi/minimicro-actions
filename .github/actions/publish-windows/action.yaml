@@ -1,0 +1,42 @@
+name: publish-webgl
+description: "Package and publish a Windows version"
+
+inputs:
+  itchio_api_key: 
+    description: 'Itch.io API key for publishing'
+    required: true
+  itchio_username: 
+    description: 'Itch.io user-name'
+    required: true
+  itchio_game_id: 
+    description: 'Itch.io game-id'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/download-artifact@v3
+      with:
+        name: user-minidisk
+
+    - name: Download Windows template
+      run: wget --no-verbose -O minimicro-win.zip https://miniscript.org/files/minimicro-win.zip
+      shell: bash
+
+    - name: Unzip Windows template
+      run: unzip minimicro-win.zip -d minimicro-win
+      shell: bash
+
+    - name: Move user.minidisk
+      run: mv user.minidisk ./minimicro-win/MiniMicro
+      shell: bash
+
+    - name: Publish Windows template to itch.io
+      uses: KikimoraGames/itch-publish@v0.0.3
+      with:
+        butlerApiKey: ${{ inputs.itchio_api_key }}
+        gameData: ./minimicro-win/MiniMicro
+        itchUsername: ${{ inputs.itchio_username }}
+        itchGameId: ${{ inputs.itchio_game_id }}
+        buildChannel: windows

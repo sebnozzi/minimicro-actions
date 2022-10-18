@@ -12,18 +12,16 @@ on:
       itch_io_game_id:
         required: true
         type: string
+      itchio_web_channel:
+        type: string
+        default: browser
     secrets:
       itch_io_api_key:
         required: true
 
-    # TODO: cache template assets
-    # TODO: convert in re-usable action
-
-      #- name: Get hashes
-      #  run:
-      #    WINDOWS_HASH=$(curl --silent --head $WINDOWS_TEMPLATE_URL | grep "ETag" | awk '{gsub(/"/, "", $2); print $2}')
-      #    MAC_HASH=$(curl --silent --head $MAC_TEMPLATE_URL | grep "ETag" | awk '{gsub(/"/, "", $2); print $2}')
-      #    LINUX_HASH=$(curl --silent --head $LINUX_TEMPLATE_URL | grep "ETag" | awk '{gsub(/"/, "", $2); print $2}')
+# Note how because this is a reusable workflow and runs in the
+# context of the caller, the composite actions (local to this
+# workflow) have to be referenced absolutely.
 
 jobs:
 
@@ -45,6 +43,7 @@ jobs:
           itchio_api_key: ${{ secrets.itch_io_api_key }}
           itchio_username: ${{ inputs.itch_io_username }}
           itchio_game_id: ${{ inputs.itch_io_game_id }}
+          itchio_build_channel: ${{ inputs.itchio_web_channel }}
 
   build-and-publish-windows:
     needs: build-minidisk

@@ -3,8 +3,11 @@ name: Build and publish to itch.io
 on:
   workflow_call:
     inputs:
-      minidisk_entries:
+      minidisk_main_file:
         required: true
+        type: string
+      minidisk_additional_entries:
+        required: false
         type: string
       itch_io_username:
         required: true
@@ -31,7 +34,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: sebnozzi/minimicro-actions/.github/actions/build-minidisk@main
         with:
-          entries: ${{ inputs.minidisk_entries }}
+          main_file: $${{ input.minidisk_main_file }}
+          additional_entries: ${{ inputs.minidisk_additional_entries }}
 
   build-and-publish-webgl:
     needs: build-minidisk

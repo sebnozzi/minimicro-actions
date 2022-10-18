@@ -33,11 +33,11 @@ runs:
       run: mv user.minidisk ./minimicro-win/MiniMicro
       shell: bash
 
-    - name: Publish Windows template to itch.io
-      uses: KikimoraGames/itch-publish@v0.0.3
-      with:
-        butlerApiKey: ${{ inputs.itchio_api_key }}
-        gameData: ./minimicro-win/MiniMicro
-        itchUsername: ${{ inputs.itchio_username }}
-        itchGameId: ${{ inputs.itchio_game_id }}
-        buildChannel: windows
+    #- name: Publish Windows template to itch.io
+    #  uses: KikimoraGames/itch-publish@v0.0.3
+    #  with:
+    #    butlerApiKey: ${{ inputs.itchio_api_key }}
+    #    gameData: ./minimicro-win/MiniMicro
+    #    itchUsername: ${{ inputs.itchio_username }}
+    #    itchGameId: ${{ inputs.itchio_game_id }}
+    #    buildChannel: windows

@@ -26,9 +26,15 @@ runs:
 
     - name: Get template hash-code
       run:
-        TEMPLATE_HASH=$(curl --silent --head https://miniscript.org/files/minimicro-webgl.zip | grep "ETag" | awk '{gsub(/"/, "", $2); print $2}')
+        HEAD=$(curl --silent --head https://miniscript.org/files/minimicro-webgl.zip)
+        ETAG=$(echo $HEAD | grep "ETag")
+        TEMPLATE_HASH=$(echo $ETAG | awk '{gsub(/"/, "", $2); print $2}')
+        
+        echo "HEAD=\"${HEAD}\""
+        echo "ETAG=\"${ETAG}\""
         echo "TEMPLATE_HASH=\"${TEMPLATE_HASH}\""
-        echo "TEMPLATE_HASH=${TEMPLATE_HASH}" >> $GITHUB_ENV
+
+        echo "TEMPLATE_HASH=\"${TEMPLATE_HASH}\"" >> $GITHUB_ENV
       shell: bash
 
     - name: Cache template
@@ -53,11 +59,11 @@ runs:
       run: mv user.minidisk ./minimicro-web/MiniMicro/StreamingAssets/
       shell: bash
 
-    - name: Publish WebGL template to itch.io
-      uses: KikimoraGames/itch-publish@v0.0.3
-      with:
-        butlerApiKey: ${{ inputs.itchio_api_key }}
-        gameData: ./minimicro-web/MiniMicro
-        itchUsername: ${{ inputs.itchio_username }}
-        itchGameId: ${{ inputs.itchio_game_id }}
-        buildChannel: ${{ inputs.itchio_build_channel }}
+    #- name: Publish WebGL template to itch.io
+    #  uses: KikimoraGames/itch-publish@v0.0.3
+    #  with:
+    #    butlerApiKey: ${{ inputs.itchio_api_key }}
+    #    gameData: ./minimicro-web/MiniMicro
+    #    itchUsername: ${{ inputs.itchio_username }}
+    #    itchGameId: ${{ inputs.itchio_game_id }}
+    #    buildChannel: ${{ inputs.itchio_build_channel }}

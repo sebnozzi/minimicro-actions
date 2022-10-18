@@ -35,11 +35,11 @@ runs:
       run: cp user.minidisk ./minimicro-linux
       shell: bash
 
-    - name: Publish Linux template to itch.io
-      uses: KikimoraGames/itch-publish@v0.0.3
-      with:
-        butlerApiKey: ${{ inputs.itchio_api_key }}
-        gameData: ./minimicro-linux
-        itchUsername: ${{ inputs.itchio_username }}
-        itchGameId: ${{ inputs.itchio_game_id }}
-        buildChannel: linux
+    #- name: Publish Linux template to itch.io
+    #  uses: KikimoraGames/itch-publish@v0.0.3
+    #  with:
+    #    butlerApiKey: ${{ inputs.itchio_api_key }}
+    #    gameData: ./minimicro-linux
+    #    itchUsername: ${{ inputs.itchio_username }}
+    #    itchGameId: ${{ inputs.itchio_game_id }}
+    #    buildChannel: linux

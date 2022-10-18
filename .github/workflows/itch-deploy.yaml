@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/build-minidisk
+      - uses: sebnozzi/minimicro-actions/.github/actions/build-minidisk@main
         with:
           entries: ${{ inputs.minidisk_entries }}
 
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/publish-webgl
+      - uses: sebnozzi/minimicro-actions/.github/actions/publish-webgl@main
         with:
           itchio_api_key: ${{ secrets.itch_io_api_key }}
           itchio_username: ${{ inputs.itch_io_username }}
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/publish-windows
+      - uses: sebnozzi/minimicro-actions/.github/actions/publish-windows@main
         with:
           itchio_api_key: ${{ secrets.itch_io_api_key }}
           itchio_username: ${{ inputs.itch_io_username }}
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/publish-mac
+      - uses: sebnozzi/minimicro-actions/.github/actions/publish-mac@main
         with:
           itchio_api_key: ${{ secrets.itch_io_api_key }}
           itchio_username: ${{ inputs.itch_io_username }}
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/publish-linux
+      - uses: sebnozzi/minimicro-actions/.github/actions/publish-linux@main
         with:
           itchio_api_key: ${{ secrets.itch_io_api_key }}
           itchio_username: ${{ inputs.itch_io_username }}

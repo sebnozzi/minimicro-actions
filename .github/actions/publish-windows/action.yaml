@@ -21,6 +21,12 @@ runs:
       with:
         name: user-minidisk
 
+    - name: Restore boot-opts artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: boot-opts
+        path: ./
+
     - name: Resolve template hash-code
       run: |
         HEAD=$(curl --silent --head https://miniscript.org/files/minimicro-win.zip)
@@ -49,8 +55,19 @@ runs:
       run: unzip minimicro-win.zip -d minimicro-win
       shell: bash
 
-    - name: Move user.minidisk
-      run: mv user.minidisk ./minimicro-win/MiniMicro
+    - name: Copy user.minidisk
+      run: cp user.minidisk ./minimicro-win/MiniMicro
+      shell: bash
+
+    - name: Copy bootOpts.grfon
+      run: |
+        # Only copy if non-empty
+        if [ -s bootOpts.grfon ]; then
+          cp bootOpts.grfon ./minimicro-win/MiniMicro/Mini\ Micro_Data/StreamingAssets/
+          echo "Copied: bootOpts.grfon"
+        else
+          echo "Did not copy: bootOpts.grfon"
+        fi
       shell: bash
 
     #- name: Publish Windows template to itch.io

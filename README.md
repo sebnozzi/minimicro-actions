@@ -15,4 +15,4 @@ It includes a reusable workflow for deploying MiniMicro projects to itch.io.
 * Create workflow file
 * Deploy
 
-* Fix browser channel (set to "playable on the browser")
+* Fix browser channel (set to "playable on the browser")|

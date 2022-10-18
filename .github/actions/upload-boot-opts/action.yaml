@@ -11,6 +11,11 @@ runs:
 
   steps:
 
+    - name: Output boot-opts parameter
+      run: |
+        echo "boot_opts_path: \"${{ inputs.boot_opts_path }}\""
+      shell: bash
+
     # If defined, upload that file
 
     - name: Upload boot-opts file

@@ -28,6 +28,8 @@ runs:
       run:
         HEAD=$(curl --silent --head https://miniscript.org/files/minimicro-webgl.zip)
         ETAG=$(echo "$HEAD" | grep "ETag")
+        # Remove trailing newline
+        ETAG=${ETAG//[$'\t\r\n']}
         TEMPLATE_HASH=$(echo $ETAG | awk '{gsub(/"/, "", $2); print $2}')
 
         echo "HEAD=\"${HEAD}\""

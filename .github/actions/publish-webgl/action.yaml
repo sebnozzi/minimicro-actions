@@ -27,6 +27,7 @@ runs:
     - name: Get template hash-code
       run:
         TEMPLATE_HASH=$(curl --silent --head https://miniscript.org/files/minimicro-webgl.zip | grep "ETag" | awk '{gsub(/"/, "", $2); print $2}')
+        echo "TEMPLATE_HASH=\"${TEMPLATE_HASH}\""
         echo "TEMPLATE_HASH=${TEMPLATE_HASH}" >> $GITHUB_ENV
       shell: bash
 

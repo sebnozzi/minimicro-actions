@@ -15,7 +15,7 @@ runs:
   steps:
     - name: Generate startup.ms
       run: |
-        MAIN_FILE="${{ inputs.main_file }}"
+        MAIN_FILE="{{ inputs.main_file }}"
         echo "load \"${MAIN_FILE}\"" > ./startup.ms
         echo "run" >> ./startup.ms
       shell: bash

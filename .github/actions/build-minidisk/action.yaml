@@ -14,17 +14,17 @@ runs:
   using: "composite"
 
   steps:
-  - name: Generate startup.ms
-    run: |
-      MAINFILE="${{ inputs.mainFile }}"
+    - name: Generate startup.ms
+      run: |
+        MAINFILE="${{ inputs.mainFile }}"
 
-      if [ -z "${MAINFILE}" ]; then
-        MAINFILE="${{ inputs.entries }}"
-      fi;
+        if [ -z "${MAINFILE}" ]; then
+          MAINFILE="${{ inputs.entries }}"
+        fi;
 
-      echo "load \"${MAINFILE}\"" > ./startup.ms
-      echo "run" >> ./startup.ms
-    shell: bash
+        echo "load \"${MAINFILE}\"" > ./startup.ms
+        echo "run" >> ./startup.ms
+      shell: bash
 
     - name: Zip user.minidisk
       run: zip -r user.minidisk ./startup.ms ${{ inputs.entries }}

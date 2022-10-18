@@ -38,7 +38,7 @@ runs:
           cache-name: cache-mac-template
       with:
         path: minimicro-mac.zip
-        key: ${{ env.TEMPLATE_HASH }}
+        key: mac-${{ env.TEMPLATE_HASH }}
 
     - name: Download Mac template
       if: ${{ steps.cache-mac-template.outputs.cache-hit != 'true' }}

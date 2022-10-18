@@ -38,7 +38,7 @@ runs:
           cache-name: cache-win-template
       with:
         path: minimicro-win.zip
-        key: ${{ env.TEMPLATE_HASH }}
+        key: windows-${{ env.TEMPLATE_HASH }}
 
     - name: Download Windows template
       if: ${{ steps.cache-win-template.outputs.cache-hit != 'true' }}

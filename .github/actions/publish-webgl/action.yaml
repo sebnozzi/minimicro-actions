@@ -41,7 +41,7 @@ runs:
           cache-name: cache-webgl-template
       with:
         path: minimicro-webgl.zip
-        key: ${{ env.TEMPLATE_HASH }}
+        key: webgl-${{ env.TEMPLATE_HASH }}
 
     - name: Download MiniMicro WebGL template
       if: ${{ steps.cache-webgl-template.outputs.cache-hit != 'true' }}

@@ -38,7 +38,7 @@ runs:
           cache-name: cache-linux-template
       with:
         path: minimicro-linux.tar.gz
-        key: ${{ env.TEMPLATE_HASH }}
+        key: linux-${{ env.TEMPLATE_HASH }}
 
     - name: Download Linux template
       if: ${{ steps.cache-linux-template.outputs.cache-hit != 'true' }}

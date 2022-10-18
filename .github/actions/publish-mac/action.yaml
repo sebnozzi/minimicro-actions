@@ -35,7 +35,7 @@ runs:
       uses: actions/cache@v3
       id: cache-mac-template
       env:
-          cache-name: cache-minimicro-templates
+          cache-name: cache-mac-template
       with:
         path: minimicro-mac.zip
         key: ${{ env.TEMPLATE_HASH }}

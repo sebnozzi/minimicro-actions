@@ -35,7 +35,7 @@ runs:
       uses: actions/cache@v3
       id: cache-win-template
       env:
-          cache-name: cache-minimicro-templates
+          cache-name: cache-win-template
       with:
         path: minimicro-win.zip
         key: ${{ env.TEMPLATE_HASH }}

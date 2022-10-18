@@ -38,7 +38,7 @@ runs:
       uses: actions/cache@v3
       id: cache-webgl-template
       env:
-          cache-name: cache-minimicro-templates
+          cache-name: cache-webgl-template
       with:
         path: minimicro-webgl.zip
         key: ${{ env.TEMPLATE_HASH }}

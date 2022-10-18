@@ -35,7 +35,7 @@ runs:
       uses: actions/cache@v3
       id: cache-linux-template
       env:
-          cache-name: cache-minimicro-templates
+          cache-name: cache-linux-template
       with:
         path: minimicro-linux.tar.gz
         key: ${{ env.TEMPLATE_HASH }}

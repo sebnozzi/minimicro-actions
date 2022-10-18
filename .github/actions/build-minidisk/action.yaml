@@ -22,6 +22,8 @@ runs:
           MAINFILE="${{ inputs.entries }}"
         fi;
 
+        echo "Using mainFile: ${MAINFILE}"
+
         echo "load \"${MAINFILE}\"" > ./startup.ms
         echo "run" >> ./startup.ms
       shell: bash

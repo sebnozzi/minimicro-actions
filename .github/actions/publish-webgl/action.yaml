@@ -31,7 +31,7 @@ runs:
         ETAG=${ETAG//[$'\t\r\n']}
         TEMPLATE_HASH=$(echo $ETAG | awk '{gsub(/"/, "", $2); print $2}')
         echo "Using TEMPLATE_HASH: \"${TEMPLATE_HASH}\""
-        echo "TEMPLATE_HASH=\"$TEMPLATE_HASH\"" >> $GITHUB_ENV
+        echo "TEMPLATE_HASH=$TEMPLATE_HASH" >> $GITHUB_ENV
       shell: bash
 
     - name: Cache template file

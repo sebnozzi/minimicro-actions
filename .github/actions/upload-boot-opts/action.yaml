@@ -19,7 +19,7 @@ runs:
     # If defined, upload that file
 
     - name: Upload boot-opts file
-      if: ${{ inputs.boot_opts_path }} != ""
+      if: "${{ inputs.boot_opts_path != '' }}"
       uses: actions/upload-artifact@v3
       with:
         name: boot-opts
@@ -29,13 +29,13 @@ runs:
     # and upload that
 
     - name: Generate empty boot-opts file
-      if: ${{ inputs.boot_opts_path }} == ""
+      if: "${{ inputs.boot_opts_path == '' }}"
       run: |
         touch bootOpts.grfon
       shell: bash
 
     - name: Upload empty boot-opts file
-      if: ${{ inputs.boot_opts_path }} == ""
+      if: "${{ inputs.boot_opts_path == '' }}"
       uses: actions/upload-artifact@v3
       with:
         name: boot-opts

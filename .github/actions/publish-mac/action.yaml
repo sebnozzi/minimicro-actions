@@ -21,7 +21,27 @@ runs:
       with:
         name: user-minidisk
 
+    - name: Resolve template hash-code
+      run:
+        HEAD=$(curl --silent --head https://miniscript.org/files/minimicro-mac.zip)
+        ETAG=$(echo "$HEAD" | grep "ETag")
+        ETAG=${ETAG//[$'\t\r\n']}
+        TEMPLATE_HASH=$(echo $ETAG | awk '{gsub(/"/, "", $2); print $2}')
+        echo "Using TEMPLATE_HASH: \"${TEMPLATE_HASH}\""
+        echo "TEMPLATE_HASH=\"$TEMPLATE_HASH\"" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Cache template file
+      uses: actions/cache@v3
+      id: cache-mac-template
+      env:
+          cache-name: cache-minimicro-templates
+      with:
+        path: minimicro-mac.zip
+        key: ${{ env.TEMPLATE_HASH }}
+
     - name: Download Mac template
+      if: ${{ steps.cache-mac-template.outputs.cache-hit != 'true' }}
       run: wget --no-verbose -O minimicro-mac.zip https://miniscript.org/files/minimicro-mac.zip
       shell: bash
          

@@ -24,21 +24,17 @@ runs:
       with:
         name: user-minidisk
 
-    - name: Get template hash-code
+    - name: Resolve template hash-code
       run:
         HEAD=$(curl --silent --head https://miniscript.org/files/minimicro-webgl.zip)
         ETAG=$(echo "$HEAD" | grep "ETag")
         ETAG=${ETAG//[$'\t\r\n']}
         TEMPLATE_HASH=$(echo $ETAG | awk '{gsub(/"/, "", $2); print $2}')
-
-        echo "HEAD=\"${HEAD}\""
-        echo "ETAG=\"${ETAG}\""
-        echo "TEMPLATE_HASH=\"${TEMPLATE_HASH}\""
-
+        echo "Using TEMPLATE_HASH: \"${TEMPLATE_HASH}\""
         echo "TEMPLATE_HASH=\"$TEMPLATE_HASH\"" >> $GITHUB_ENV
       shell: bash
 
-    - name: Cache template
+    - name: Cache template file
       uses: actions/cache@v3
       id: cache-webgl-template
       env:

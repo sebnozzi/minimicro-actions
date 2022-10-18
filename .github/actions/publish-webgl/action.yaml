@@ -73,11 +73,11 @@ runs:
         fi
       shell: bash
 
-    #- name: Publish WebGL template to itch.io
-    #  uses: KikimoraGames/itch-publish@v0.0.3
-    #  with:
-    #    butlerApiKey: ${{ inputs.itchio_api_key }}
-    #    gameData: ./minimicro-web/MiniMicro
-    #    itchUsername: ${{ inputs.itchio_username }}
-    #    itchGameId: ${{ inputs.itchio_game_id }}
-    #    buildChannel: ${{ inputs.itchio_build_channel }}
+    - name: Publish WebGL template to itch.io
+      uses: KikimoraGames/itch-publish@v0.0.3
+      with:
+        butlerApiKey: ${{ inputs.itchio_api_key }}
+        gameData: ./minimicro-web/MiniMicro
+        itchUsername: ${{ inputs.itchio_username }}
+        itchGameId: ${{ inputs.itchio_game_id }}
+        buildChannel: ${{ inputs.itchio_build_channel }}

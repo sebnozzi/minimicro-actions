@@ -1,4 +1,4 @@
 
 # MiniMicro (GitHub) Actions
 
-Reusable workflow for deploying MiniMicro games (to itch.io)
+It includes a reusable workflow for deploying MiniMicro projects to itch.io.

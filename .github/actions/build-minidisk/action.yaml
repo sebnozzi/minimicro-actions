@@ -5,14 +5,29 @@ inputs:
   entries:
     description: "Files or folders to be recursively included in the minidisk"
     required: true
+  mainFile:
+    description: "Main file to load and run - if omitted the entries values will be used"
+    required: false
+    default:
 
 runs:
   using: "composite"
 
   steps:
-  
+  - name: Generate startup.ms
+    run: |
+      MAINFILE="${{ inputs.mainFile }}"
+
+      if [ -z "${MAINFILE}" ]; then
+        MAINFILE="${{ inputs.entries }}"
+      fi;
+
+      echo "load \"${MAINFILE}\"" > ./startup.ms
+      echo "run" >> ./startup.ms
+    shell: bash
+
     - name: Zip user.minidisk
-      run: zip -r user.minidisk ${{ inputs.entries }}
+      run: zip -r user.minidisk ./startup.ms ${{ inputs.entries }}
       shell: bash
 
     - uses: actions/upload-artifact@v3

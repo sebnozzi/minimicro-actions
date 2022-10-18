@@ -27,9 +27,9 @@ runs:
     - name: Get template hash-code
       run:
         HEAD=$(curl --silent --head https://miniscript.org/files/minimicro-webgl.zip)
-        ETAG=$(echo $HEAD | grep "ETag")
-        TEMPLATE_HASH=$(echo $ETAG | awk '{gsub(/"/, "", $2); print $2}')
-        
+        ETAG=$(echo "$HEAD" | grep "ETag")
+        TEMPLATE_HASH=$(echo "$ETAG" | awk '{gsub(/"/, "", $2); print $2}')
+
         echo "HEAD=\"${HEAD}\""
         echo "ETAG=\"${ETAG}\""
         echo "TEMPLATE_HASH=\"${TEMPLATE_HASH}\""

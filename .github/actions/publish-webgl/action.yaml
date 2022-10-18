@@ -15,15 +15,35 @@ inputs:
     description: 'Itch.io build-channel for web / browser'
     required: true
 
+env:
+  TEMPLATE_URL: https://miniscript.org/files/minimicro-webgl.zip
+
 runs:
   using: "composite"
   steps:
 
-    - uses: actions/download-artifact@v3
+    - name: Restore user-minidisk artifact
+      uses: actions/download-artifact@v3
       with:
         name: user-minidisk
 
+    - name: Get template hash-code
+      run:
+        TEMPLATE_HASH=$(curl --silent --head ${{ env.TEMPLATE_URL }} | grep "ETag" | awk '{gsub(/"/, "", $2); print $2}')
+        echo "TEMPLATE_HASH=${TEMPLATE_HASH}" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Cache template
+      uses: actions/cache@v3
+      id: cache-webgl-template
+      env:
+          cache-name: cache-minimicro-templates
+      with:
+        path: minimicro-webgl.zip
+        key: ${{ env.TEMPLATE_HASH }}
+
     - name: Download MiniMicro WebGL template
+      if: ${{ steps.cache-webgl-template.outputs.cache-hit != 'true' }}
       run: wget --no-verbose -O minimicro-webgl.zip https://miniscript.org/files/minimicro-webgl.zip
       shell: bash
 

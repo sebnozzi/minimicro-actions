@@ -16,7 +16,8 @@ runs:
   using: "composite"
   steps:
 
-    - uses: actions/download-artifact@v3
+    - name: Restore user-minidisk artifact
+      uses: actions/download-artifact@v3
       with:
         name: user-minidisk
 

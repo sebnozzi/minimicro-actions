@@ -1,4 +1,4 @@
-name: Build and publish MiniMicro game
+name: Build and publish to itch.io
 
 on:
   workflow_call:

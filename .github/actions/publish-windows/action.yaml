@@ -11,6 +11,9 @@ inputs:
   itchio_game_id: 
     description: 'Itch.io game-id'
     required: true
+  custom_executable_name:
+    description: "Optionally rename MiniMicro.exe to this name"
+    required: false
 
 runs:
   using: "composite"
@@ -68,6 +71,15 @@ runs:
         else
           echo "Did not copy: bootOpts.grfon"
         fi
+      shell: bash
+
+    - name: Rename executable
+      if: "${{ inputs.custom_executable_name != '' }}"
+      run: |
+        # Rename executable
+        mv ./minimicro-win/MiniMicro/Mini\ Micro.exe "./minimicro-win/MiniMicro/${{ inputs.custom_executable_name }}.exe" 
+        # Rename data folder
+        mv ./minimicro-win/MiniMicro/Mini\ Micro_Data "./minimicro-win/MiniMicro/${{ inputs.custom_executable_name }}_Data"
       shell: bash
 
     - name: Publish Windows template to itch.io

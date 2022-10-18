@@ -11,6 +11,9 @@ inputs:
   itchio_game_id: 
     description: 'Itch.io game-id'
     required: true
+  custom_executable_name:
+    description: "Optionally rename MiniMicro.app to this name"
+    required: false
 
 runs:
   using: "composite"
@@ -68,6 +71,13 @@ runs:
         else
           echo "Did not copy: bootOpts.grfon"
         fi
+      shell: bash
+
+    - name: Rename app bundle
+      if: "${{ inputs.custom_executable_name != '' }}"
+      run: |
+        # Rename app bundle
+        mv ./minimicro-mac/MiniMicro.app "./minimicro-mac/${{ inputs.custom_executable_name }}.app" 
       shell: bash
 
     - name: Publish Mac template to itch.io

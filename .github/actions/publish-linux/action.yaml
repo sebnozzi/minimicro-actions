@@ -11,6 +11,9 @@ inputs:
   itchio_game_id: 
     description: 'Itch.io game-id'
     required: true
+  custom_executable_name:
+    description: "Optionally rename MiniMicro.x86_64 to this name"
+    required: false
 
 runs:
   using: "composite"
@@ -70,6 +73,15 @@ runs:
         else
           echo "Did not copy: bootOpts.grfon"
         fi
+      shell: bash
+
+    - name: Rename executable
+      if: "${{ inputs.custom_executable_name != '' }}"
+      run: |
+        # Rename executable
+        mv ./minimicro-linux/MiniMicro.x86_64 "./minimicro-linux/${{ inputs.custom_executable_name }}.x86_64" 
+        # Rename data folder
+        mv ./minimicro-linux/MiniMicro_Data "./minimicro-linux/${{ inputs.custom_executable_name }}_Data"
       shell: bash
 
     - name: Publish Linux template to itch.io

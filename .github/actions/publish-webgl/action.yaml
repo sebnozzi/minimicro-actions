@@ -25,7 +25,7 @@ runs:
         name: user-minidisk
 
     - name: Resolve template hash-code
-      run:
+      run: |
         HEAD=$(curl --silent --head https://miniscript.org/files/minimicro-webgl.zip)
         ETAG=$(echo "$HEAD" | grep "ETag")
         ETAG=${ETAG//[$'\t\r\n']}

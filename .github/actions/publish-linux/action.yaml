@@ -21,8 +21,8 @@ runs:
       with:
         name: user-minidisk
 
-     - name: Resolve template hash-code
-      run:
+    - name: Resolve template hash-code
+      run: |
         HEAD=$(curl --silent --head https://miniscript.org/files/minimicro-linux.tar.gz)
         ETAG=$(echo "$HEAD" | grep "ETag")
         ETAG=${ETAG//[$'\t\r\n']}

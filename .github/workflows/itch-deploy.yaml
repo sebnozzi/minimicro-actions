@@ -17,6 +17,7 @@ on:
         type: string
       itchio_web_channel:
         type: string
+        required: false
         default: browser
     secrets:
       itch_io_api_key:

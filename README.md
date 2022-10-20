@@ -106,14 +106,14 @@ The "with" sections contains the parameters that can be passed to the workflow, 
 | Name    | Required | Description |
 |---------|---------|----------------------------------------------------------------------|
 | **minidisk_main_file** | Yes | The main file that will be loaded and run to start your game / app |
-| minidisk_additional_entries | No | Additional files or top-level folders to be included as part of the game / app.<br/> Folder contents will be added recursively. |
-| boot_opts_path | No | Path to a `bootOpts.grfon` file to [configure how MiniMicro runs](https://miniscript.org/wiki/BootOpts.grfon) |
-| custom_executable_name | No | Optionally the "MiniMicro" executable can be renamed to the name provided.<br/> E.g. for "My Game" the executables will result in "My Game.exe" (Windows) and "My Game.app" (Mac). |
+| minidisk_additional_entries | No | Additional files or top-level folders to be included as part of the game / app. Folder contents will be added recursively.<br/>The entries are specified as one string, separated by spaces (e.g. `file1.ms file2.ms someFolder`). To enter entries in different lines, you can make use of the YAML's `>-` block indicator, which will compact all lines in one string removing newlines. |
+| boot_opts_path | No | Path to a `bootOpts.grfon` file to [configure how MiniMicro runs](https://miniscript.org/wiki/BootOpts.grfon). The name of the file MUST be "bootOpts.grfon". |
+| custom_executable_name | No | Optionally the "MiniMicro" executable can be renamed to the name provided. E.g. for "My Game" the executables will result in "My Game.exe" (Windows) and "My Game.app" (Mac). |
 | **itch_io_username** | Yes | Your username on itch.io |
-| **itch_io_game_id** | Yes | The "game-id" chosen when [creating the project](#creating-project) at itch.io. <br/>Last part of the game's URL |
-| itchio_web_channel | No | Name to use for the "browser playable" version of the game. <br/>If not specified "browser" will be used. |
+| **itch_io_game_id** | Yes | The "game-id" chosen when [creating the project](#creating-project) at itch.io. <br/>Last part of the game's URL. |
+| itchio_web_channel | No | Name to use for the "browser playable" version of the game. If not specified "browser" will be used. After the first deployment the file on that channel has to be manually set to "browser playable" on itch.io. |
 
-Finally, the GitHub secret needs to be passed in the `secrets` section. The parameter is always "itch_io_api_key", but be sure to choose the name of the secreat as you configured it in your repository in the expression `${{ secrets.NAME_OF_YOUR_SECRET }}`
+Finally, the **GitHub secret** needs to be passed in the `secrets` section. The parameter is always "itch_io_api_key", but be sure to choose the name of the secreat as you configured it in your repository in the expression `${{ secrets.NAME_OF_YOUR_SECRET }}`
 
 ### 5. Make a first-time deployment
 

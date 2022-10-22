@@ -45,7 +45,7 @@ jobs:
       custom_executable_name: ${{ inputs.custom_executable_name }}
 
   publish-webgl:
-    needs: prepare-assets
+    needs: build-artifacts
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3
@@ -59,7 +59,7 @@ jobs:
           itchio_build_channel: ${{ inputs.itchio_web_channel }}
 
   publish-windows:
-    needs: prepare-assets
+    needs: build-artifacts
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3
@@ -73,7 +73,7 @@ jobs:
           itchio_build_channel: windows
 
   publish-mac:
-    needs: prepare-assets
+    needs: build-artifacts
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3
@@ -87,7 +87,7 @@ jobs:
           itchio_build_channel: mac
 
   publish-linux:
-    needs: prepare-assets
+    needs: build-artifacts
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3

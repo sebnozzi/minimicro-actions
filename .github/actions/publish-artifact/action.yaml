@@ -29,6 +29,11 @@ runs:
       uses: actions/download-artifact@v3
       with:
         name: ${{ inputs.artifact_name }}
+        path: ${{ inputs.artifact_data_folder }}
+
+    - name: List files
+      run: ls -lr
+      shell: bash
 
     - name: Publish Linux template to itch.io
       uses: KikimoraGames/itch-publish@v0.0.3

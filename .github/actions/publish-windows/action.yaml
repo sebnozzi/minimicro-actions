@@ -1,4 +1,4 @@
-name: publish-webgl
+name: publish-windows
 description: "Package and publish a Windows version"
 
 inputs:

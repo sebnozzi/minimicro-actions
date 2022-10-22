@@ -36,62 +36,66 @@ on:
 
 jobs:
 
-  prepare-assets:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: sebnozzi/minimicro-actions/.github/actions/build-minidisk@main
-        with:
-          main_file: ${{ inputs.minidisk_main_file }}
-          additional_entries: ${{ inputs.minidisk_additional_entries }}
-      - uses: sebnozzi/minimicro-actions/.github/actions/upload-boot-opts@main
-        with:
-          boot_opts_path: ${{ inputs.boot_opts_path }}
+  build-artifacts:
+    uses: sebnozzi/minimicro-actions/.github/workflows/build-artifacts.yaml@main
+    with:
+      minidisk_main_file: ${{ inputs.minidisk_main_file }}
+      minidisk_additional_entries: ${{ inputs.minidisk_additional_entries }}
+      boot_opts_path: ${{ inputs.boot_opts_path }}
+      custom_executable_name: ${{ inputs.custom_executable_name }}
 
-  build-and-publish-webgl:
+  publish-webgl:
     needs: prepare-assets
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3
-      - uses: sebnozzi/minimicro-actions/.github/actions/publish-webgl@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
         with:
+          artifact_name: webgl-build
+          artifact_data_folder: ./minimicro-web
           itchio_api_key: ${{ secrets.itch_io_api_key }}
           itchio_username: ${{ inputs.itch_io_username }}
           itchio_game_id: ${{ inputs.itch_io_game_id }}
           itchio_build_channel: ${{ inputs.itchio_web_channel }}
 
-  build-and-publish-windows:
+  publish-windows:
     needs: prepare-assets
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3
-      - uses: sebnozzi/minimicro-actions/.github/actions/publish-windows@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
         with:
+          artifact_name: windows-build
+          artifact_data_folder: ./minimicro-win
           itchio_api_key: ${{ secrets.itch_io_api_key }}
           itchio_username: ${{ inputs.itch_io_username }}
           itchio_game_id: ${{ inputs.itch_io_game_id }}
-          custom_executable_name: ${{ inputs.custom_executable_name }}
+          itchio_build_channel: windows
 
-  build-and-publish-mac:
+  publish-mac:
     needs: prepare-assets
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3
-      - uses: sebnozzi/minimicro-actions/.github/actions/publish-mac@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
         with:
+          artifact_name: mac-build
+          artifact_data_folder: ./minimicro-mac
           itchio_api_key: ${{ secrets.itch_io_api_key }}
           itchio_username: ${{ inputs.itch_io_username }}
           itchio_game_id: ${{ inputs.itch_io_game_id }}
-          custom_executable_name: ${{ inputs.custom_executable_name }}
+          itchio_build_channel: mac
 
-  build-and-publish-linux:
+  publish-linux:
     needs: prepare-assets
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v3
-      - uses: sebnozzi/minimicro-actions/.github/actions/publish-linux@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
         with:
+          artifact_name: linux-build
+          artifact_data_folder: ./minimicro-linux
           itchio_api_key: ${{ secrets.itch_io_api_key }}
           itchio_username: ${{ inputs.itch_io_username }}
           itchio_game_id: ${{ inputs.itch_io_game_id }}
-          custom_executable_name: ${{ inputs.custom_executable_name }}
+          itchio_build_channel: linux

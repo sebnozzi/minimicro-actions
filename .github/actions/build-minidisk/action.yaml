@@ -13,6 +13,10 @@ runs:
   using: "composite"
 
   steps:
+
+    - name: Checkout project
+      uses: actions/checkout@v3
+
     - name: Generate startup.ms
       run: |
         echo "load \"${{ inputs.main_file }}\"" > ./startup.ms

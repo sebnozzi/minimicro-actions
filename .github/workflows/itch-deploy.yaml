@@ -36,19 +36,58 @@ on:
 
 jobs:
 
-  build-artifacts:
-    uses: sebnozzi/minimicro-actions/.github/workflows/build-artifacts.yaml@main
-    with:
-      minidisk_main_file: ${{ inputs.minidisk_main_file }}
-      minidisk_additional_entries: ${{ inputs.minidisk_additional_entries }}
-      boot_opts_path: ${{ inputs.boot_opts_path }}
-      custom_executable_name: ${{ inputs.custom_executable_name }}
+  prepare-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: sebnozzi/minimicro-actions/.github/actions/build-minidisk@main
+        with:
+          main_file: ${{ inputs.minidisk_main_file }}
+          additional_entries: ${{ inputs.minidisk_additional_entries }}
+      - uses: sebnozzi/minimicro-actions/.github/actions/upload-boot-opts@main
+        with:
+          boot_opts_path: ${{ inputs.boot_opts_path }}
 
-  publish-webgl:
-    needs: build-artifacts
+  # === BUILD JOBS ===
+
+  build-webgl:
+      needs: prepare-assets
+      runs-on: ubuntu-latest    
+      steps:
+        - uses: sebnozzi/minimicro-actions/.github/actions/build-webgl@main
+
+  build-windows:
+    needs: prepare-assets
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/build-windows@main
+        with:
+          custom_executable_name: ${{ inputs.custom_executable_name }}
+
+  build-mac:
+    needs: prepare-assets
+    runs-on: ubuntu-latest    
+    steps:
+      - uses: sebnozzi/minimicro-actions/.github/actions/build-mac@main
+        with:
+          custom_executable_name: ${{ inputs.custom_executable_name }}
+
+  build-linux:
+    needs: prepare-assets
+    runs-on: ubuntu-latest    
+    steps:
+      - uses: sebnozzi/minimicro-actions/.github/actions/build-linux@main
+        with:
+          custom_executable_name: ${{ inputs.custom_executable_name }}
+
+  # === PUBLISH JOBS ===
+
+  publish-webgl:
+    needs: build-webgl
+    runs-on: ubuntu-latest    
+    steps:
+      - uses: actions/checkout@v3
+      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
         with:
           artifact_name: webgl-build
           artifact_data_folder: ./minimicro-web
@@ -58,10 +97,11 @@ jobs:
           itchio_build_channel: ${{ inputs.itchio_web_channel }}
 
   publish-windows:
-    needs: build-artifacts
+    needs: build-windows
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
+      - uses: actions/checkout@v3
+      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
         with:
           artifact_name: windows-build
           artifact_data_folder: ./minimicro-win
@@ -71,10 +111,11 @@ jobs:
           itchio_build_channel: windows
 
   publish-mac:
-    needs: build-artifacts
+    needs: build-mac
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
+      - uses: actions/checkout@v3
+      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
         with:
           artifact_name: mac-build
           artifact_data_folder: ./minimicro-mac
@@ -84,10 +125,11 @@ jobs:
           itchio_build_channel: mac
 
   publish-linux:
-    needs: build-artifacts
+    needs: build-linux
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
+      - uses: actions/checkout@v3
+      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
         with:
           artifact_name: linux-build
           artifact_data_folder: ./minimicro-linux

@@ -48,7 +48,6 @@ jobs:
     needs: build-artifacts
     runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v3
       - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
         with:
           artifact_name: webgl-build
@@ -62,7 +61,6 @@ jobs:
     needs: build-artifacts
     runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v3
       - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
         with:
           artifact_name: windows-build
@@ -76,7 +74,6 @@ jobs:
     needs: build-artifacts
     runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v3
       - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
         with:
           artifact_name: mac-build
@@ -90,7 +87,6 @@ jobs:
     needs: build-artifacts
     runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v3
       - uses: sebnozzi/minimicro-actions/.github/actions/publish-artifact@main
         with:
           artifact_name: linux-build

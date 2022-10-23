@@ -61,7 +61,7 @@ jobs:
         with:
           artifact_name: webgl-build
           artifact_data_folder: ./minimicro-web
-          ftp_host: ${{ secrets.ftp_host }}
-          ftp_username: ${{ secrets.ftp_username }}
-          ftp_password: ${{ secrets.ftp_password }}
+          ftp_host: ${{ inputs.ftp_host }}
+          ftp_username: ${{ inputs.ftp_username }}
+          ftp_password: ${{ inputs.ftp_password }}
           ftp_target_path: ${{ inputs.ftp_target_path }}

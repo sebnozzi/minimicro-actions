@@ -1,0 +1,62 @@
+name: Build and publish via FTP
+
+on:
+  workflow_call:
+    inputs:
+      minidisk_main_file:
+        required: true
+        type: string
+      minidisk_additional_entries:
+        required: false
+        type: string
+      boot_opts_path:
+        required: false
+        type: string
+    secrets:
+      ftp_host:
+        required: true
+      ftp_username:
+        required: true
+      ftp_password:
+        required: true
+
+
+# Note how because this is a reusable workflow and runs in the
+# context of the caller, the composite actions (local to this
+# workflow) have to be referenced absolutely.
+
+jobs:
+
+  prepare-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: sebnozzi/minimicro-actions/.github/actions/build-minidisk@main
+        with:
+          main_file: ${{ inputs.minidisk_main_file }}
+          additional_entries: ${{ inputs.minidisk_additional_entries }}
+      - uses: sebnozzi/minimicro-actions/.github/actions/upload-boot-opts@main
+        with:
+          boot_opts_path: ${{ inputs.boot_opts_path }}
+
+  # === BUILD JOBS ===
+
+  build-webgl:
+      needs: prepare-assets
+      runs-on: ubuntu-latest    
+      steps:
+        - uses: sebnozzi/minimicro-actions/.github/actions/build-webgl@main
+
+  # === PUBLISH JOBS ===
+
+  publish-webgl:
+    needs: build-webgl
+    runs-on: ubuntu-latest    
+    steps:
+      - uses: sebnozzi/minimicro-actions/.github/actions/ftp-publish@main
+        with:
+          artifact_name: webgl-build
+          artifact_data_folder: ./minimicro-web
+          ftp_host: ${{ secrets.ftp_host }}
+          ftp_username: ${{ secrets.ftp_username }}
+          ftp_password: ${{ secrets.ftp_password }}
+          ftp_target_path: ${{ inputs.ftp_target_path }}

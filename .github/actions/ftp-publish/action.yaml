@@ -1,0 +1,56 @@
+name: ftp-publish
+description: "Uploads a generated artifact via FTP"
+
+inputs:
+  artifact_name: 
+    description: 'Generated artifact to restore / download'
+    required: true
+  artifact_data_folder: 
+    description: "Folder with the artifact's data"
+    required: true
+  ftp_host:
+    description: "FTP host / URL"
+    required: true
+  ftp_username:
+    description: "FTP account username"
+    required: true
+  ftp_password:
+    description: "FTP account password"
+    required: true
+  ftp_target_path:
+    description: "FTP target path to upload to"
+    required: false
+    default: "./"
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Restore artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ inputs.artifact_name }}
+        path: ${{ inputs.artifact_data_folder }}
+
+    - name: Echo debug info
+      if: ${{ github.repository == 'sebnozzi/minimicro-actions' }}
+      run: |
+        echo "Repository: ${{ github.repository }}"
+        echo '${{ toJSON(github) }}'
+      shell: bash
+
+    - name: List files
+      if: ${{ github.repository == 'sebnozzi/minimicro-actions' }}
+      run: ls -lr ${{ inputs.artifact_data_folder }}
+      shell: bash
+
+    - name: Upload template via FTP
+      # Don't really publish if doing test-runs from within actions repository
+      if: ${{ github.repository != 'sebnozzi/minimicro-actions' }}
+      uses: SamKirkland/FTP-Deploy-Action@4.3.2
+      with:
+        server: ${{ secrets.ftp_host }}
+        username: ${{ secrets.ftp_username }}
+        password: ${{ secrets.ftp_password }}
+        local-dir: ${{ inputs.artifact_data_folder }}
+        server-dir: ${{ inputs.ftp_target_path }}

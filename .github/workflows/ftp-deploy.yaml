@@ -60,7 +60,7 @@ jobs:
       - uses: sebnozzi/minimicro-actions/.github/actions/ftp-publish@main
         with:
           artifact_name: webgl-build
-          artifact_data_folder: ./minimicro-web
+          artifact_data_folder: ./minimicro-web/
           ftp_host: ${{ inputs.ftp_host }}
           ftp_username: ${{ secrets.ftp_username }}
           ftp_password: ${{ secrets.ftp_password }}

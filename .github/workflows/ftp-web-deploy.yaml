@@ -1,4 +1,4 @@
-name: Build and publish via FTP
+name: Build and publish web-version via FTP
 
 on:
   workflow_call:
@@ -16,9 +16,8 @@ on:
         type: string
         required: true
       ftp_target_path:
-        required: false
+        required: true
         type: string
-        default: './'
     secrets:
       ftp_username:
         required: true
@@ -57,10 +56,8 @@ jobs:
     needs: build-webgl
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/ftp-publish@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/ftp-webgl-publish@main
         with:
-          artifact_name: webgl-build
-          artifact_data_folder: ./minimicro-web/
           ftp_host: ${{ inputs.ftp_host }}
           ftp_username: ${{ secrets.ftp_username }}
           ftp_password: ${{ secrets.ftp_password }}

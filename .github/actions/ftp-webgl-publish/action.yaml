@@ -1,13 +1,7 @@
-name: ftp-publish
-description: "Uploads a generated artifact via FTP"
+name: ftp-webgl-publish
+description: "Uploads a WebGL artifact via FTP"
 
 inputs:
-  artifact_name: 
-    description: 'Generated artifact to restore / download'
-    required: true
-  artifact_data_folder: 
-    description: "Folder with the artifact's data"
-    required: true
   ftp_host:
     description: "FTP host / URL"
     required: true
@@ -19,8 +13,7 @@ inputs:
     required: true
   ftp_target_path:
     description: "FTP target path to upload to"
-    required: false
-    default: "./"
+    required: true
 
 runs:
   using: "composite"
@@ -29,8 +22,7 @@ runs:
     - name: Restore artifact
       uses: actions/download-artifact@v3
       with:
-        name: ${{ inputs.artifact_name }}
-        path: ${{ inputs.artifact_data_folder }}
+        name: webgl-build
 
     - name: Echo debug info
       if: ${{ github.repository == 'sebnozzi/minimicro-actions' }}
@@ -41,7 +33,7 @@ runs:
 
     - name: List files
       if: ${{ github.repository == 'sebnozzi/minimicro-actions' }}
-      run: ls -lr ${{ inputs.artifact_data_folder }}
+      run: ls -lr ./minimicro-web/MiniMicro
       shell: bash
 
     - name: Upload template via FTP
@@ -52,5 +44,5 @@ runs:
         server: ${{ inputs.ftp_host }}
         username: ${{ inputs.ftp_username }}
         password: ${{ inputs.ftp_password }}
-        local-dir: ${{ inputs.artifact_data_folder }}
+        local-dir: ./minimicro-web/MiniMicro/
         server-dir: ${{ inputs.ftp_target_path }}

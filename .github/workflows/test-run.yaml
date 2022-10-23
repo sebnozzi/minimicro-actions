@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  publish:
+  publish-to-itch-io:
     uses: sebnozzi/minimicro-actions/.github/workflows/itch-deploy.yaml@main
     with:
       minidisk_main_file: test.ms
@@ -20,3 +20,13 @@ jobs:
       itchio_web_channel: web
     secrets:
       itch_io_api_key: ${{ secrets.TEST_SECRET }}
+
+  publish-via-ftp:
+    uses: sebnozzi/minimicro-actions/.github/workflows/ftp-deploy.yaml@main
+    with:
+      minidisk_main_file: test.ms
+      ftp_host: "some-server.com"
+      ftp_target_path: "/some/path/on/server"
+    secrets:
+      ftp_username: ${{ secrets.TEST_FTP_USER }}
+      ftp_password: ${{ secrets.TEST_FTP_PASS }}

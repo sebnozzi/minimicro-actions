@@ -9,7 +9,7 @@ on:
 jobs:
 
   publish:
-    uses: .github/workflows/itch-deploy.yaml@main
+    uses: sebnozzi/minimicro-actions/.github/workflows/itch-deploy.yaml@main
     with:
       minidisk_main_file: test.ms
       minidisk_additional_entries: test-files

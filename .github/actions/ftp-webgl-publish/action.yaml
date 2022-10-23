@@ -44,5 +44,5 @@ runs:
         server: ${{ inputs.ftp_host }}
         username: ${{ inputs.ftp_username }}
         password: ${{ inputs.ftp_password }}
-        local-dir: ./minimicro-web/MiniMicro/
+        local-dir: ./MiniMicro/
         server-dir: ${{ inputs.ftp_target_path }}

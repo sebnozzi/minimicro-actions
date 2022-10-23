@@ -12,9 +12,14 @@ on:
       boot_opts_path:
         required: false
         type: string
-    secrets:
       ftp_host:
+        type: string
         required: true
+      ftp_target_path:
+        required: false
+        type: string
+        default: './'
+    secrets:
       ftp_username:
         required: true
       ftp_password:

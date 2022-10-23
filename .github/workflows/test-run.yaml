@@ -1,0 +1,22 @@
+name: Test Run
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+
+  publish:
+    uses: .github/workflows/itch-deploy.yaml@main
+    with:
+      minidisk_main_file: test.ms
+      minidisk_additional_entries: test-files
+      custom_executable_name: Test Run
+      boot_opts_path: ./bootOpts.grfon
+      itch_io_username: test-user
+      itch_io_game_id: test-game
+      itchio_web_channel: web
+    secrets:
+      itch_io_api_key: ${{ secrets.TEST_SECRET }}

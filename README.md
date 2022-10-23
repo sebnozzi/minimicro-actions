@@ -3,7 +3,10 @@
 
 This repository aims to be a collection of GitHub workflows / actions useful for dealing with MiniMicro artifacts.
 
-Currently it only consists of a reusable workflow for deploying MiniMicro projects to itch.io. Users can invoke this workflow from their GitHub-hosted MiniMicro projects and have it deployed without much effort.
+It consists of these workflows:
+
+1. Deploying multi-platform builds to itch.io (including web)
+2. Uploading a web-build to a web-server via FTP
 
 ## Deploying to itch.io (workflow)
 
@@ -137,6 +140,104 @@ After this, everything should be setup.
 
 Depending on the [triggers selected for the workflow](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows) you would automatically deploy to itch.io each time the "main" branch changes, or when manually triggering a build.
 
-Hopefully this reusable workflow helps in sharing your MiniMicro creations with the world.
+## FTP Uploading
+
+It assumes that:
+
+1. You have a web-server running
+2. Which you can upload files to via FTP
+
+You must know suitable user / password to authenticate to the FTP server.
+
+In order to use this workflow follow these instructions:
+
+### 1. Create secrets on repo
+
+On your GitHub repository, go to:
+
+* "Settings", then
+* "Secrets", then
+* "Actions"
+
+You will create secrets by clicking on "New repository secret".
+
+Create these secrets:
+
+1. One for your FTP-account user-name
+2. Another your FTP-account password
+
+Name these secrets however you want, but remember the names.
+
+### 2. Create up a workflow file
+
+Your GitHub project needs to have a ".github" folder, inside of it a "workflows" folder and inside it a workflow file.
+
+The workflow file is a YAML file. You can choose the name you want. One example would be: `publish.yaml`.
+
+Then it would look like this:
+
+```
+.github/workflows/publish.yaml
+```
+
+### 3. Configure the workflow file
+
+Here is a sample content of the workflow file, for illustration purposes only:
+
+```yaml
+name: Publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  publish:
+    uses: sebnozzi/minimicro-actions/.github/workflows/ftp-web-deploy.yaml@main
+    with:
+      page_title: "Feed the Wumpus! | MiniMicro"
+      minidisk_main_file: game.ms
+      minidisk_additional_entries: '"kitchen Background Lite.png"'
+      ftp_host: "sebnozzi.com"
+      ftp_target_path: "/public_html/demos/mini-micro/feed-the-wumpus/"
+    secrets:
+      ftp_username: ${{ secrets.FTP_USER }}
+      ftp_password: ${{ secrets.FTP_PASS }}
+
+```
+
+The line in "uses" has to be written as it is.
+
+The "with" sections contains the parameters that can be passed to the workflow, which are:
+
+| Name    | Required | Description |
+|---------|---------|----------------------------------------------------------------------|
+|page_title|No|Title to give to the HTML page in which the project runs. If not specified the default title of the web-template will be used.|
+| **minidisk_main_file** | Yes | The main file that will be loaded and run to start your game / app |
+| minidisk_additional_entries | No | Additional files or top-level folders to be included as part of the game / app. Folder contents will be added recursively.<br/>The entries are specified as one string, separated by spaces (e.g. `file1.ms file2.ms someFolder`). To enter entries in different lines, you can make use of the YAML's `>-` [block style](https://yaml-multiline.info/) indicator, which will compact all lines in one string removing newlines. |
+| boot_opts_path | No | Path to a `bootOpts.grfon` file to [configure how MiniMicro runs](https://miniscript.org/wiki/BootOpts.grfon). The name of the file MUST be "bootOpts.grfon". |
+|ftp_host|Yes|Host-address of the FTP server. Note: host ONLY; you don't need to include the protocol part like "ftp://"|
+|ftp_target_path|Yes|Path / directory in the server to which to upload the files. NOTE that it HAS to end with a trailing slash ("/path/" is OK, "/path" is NOT).|
+
+Finally, the **GitHub secrets** (FTP user / password) need to be passed in the `secrets` section.
+
+| Name    | Description |
+|---------|----------------------------------------------------------------------|
+|ftp_username|User-name of your FTP account|
+|ftp_password|Password of your FTP account|
+
+### 4. Deploy as needed
+
+After this, everything should be setup.
+
+Depending on the [triggers selected for the workflow](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows) you would automatically upload via FTP each time the "main" branch changes, or when manually triggering a build.
+
+## End words
+
+Hopefully these reusable workflows help in sharing your MiniMicro creations with the world.
+
+Issues and suggestions welcome.
 
 Happy coding!

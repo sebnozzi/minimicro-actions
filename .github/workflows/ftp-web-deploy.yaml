@@ -18,6 +18,10 @@ on:
       ftp_target_path:
         required: true
         type: string
+      page_title:
+        description: "Title to give the HTML page"
+        type: string
+        required: false
     secrets:
       ftp_username:
         required: true
@@ -58,6 +62,7 @@ jobs:
     steps:
       - uses: sebnozzi/minimicro-actions/.github/actions/ftp-webgl-publish@main
         with:
+          page_title: ${{ inputs.page_title }}
           ftp_host: ${{ inputs.ftp_host }}
           ftp_username: ${{ secrets.ftp_username }}
           ftp_password: ${{ secrets.ftp_password }}

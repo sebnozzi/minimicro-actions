@@ -2,6 +2,9 @@ name: ftp-webgl-publish
 description: "Uploads a WebGL artifact via FTP"
 
 inputs:
+  page_title:
+    description: "Title to give the HTML page"
+    required: false
   ftp_host:
     description: "FTP host / URL"
     required: true
@@ -34,6 +37,13 @@ runs:
     - name: List files
       run: |
         ls -lR ./
+      shell: bash
+
+    - name: Change HTML page title
+      if: ${{ inputs.page_title != '' }}
+      run: |
+        PAGE_TITLE="${{ inputs.page_title }}"
+        sed -i -e "s|<title>[^<]*|<title>$PAGE_TITLE</title>|g" ./MiniMicro/index.html
       shell: bash
 
     - name: Upload template via FTP

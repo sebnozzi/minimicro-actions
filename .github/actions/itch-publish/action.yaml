@@ -1,5 +1,5 @@
-name: publish-artifact
-description: "Publish a generated artifact"
+name: itch-publish
+description: "Publish a generated artifact to itch.io"
 
 inputs:
   artifact_name: 
@@ -32,10 +32,11 @@ runs:
         path: ${{ inputs.artifact_data_folder }}
 
     - name: List files
-      run: ls -lr
+      if: ${{ github.repository }} == "sebnozzi/minimicro-actions"
+      run: ls -lr ${{ inputs.artifact_data_folder }}
       shell: bash
 
-    - name: Publish Linux template to itch.io
+    - name: Publish template to itch.io
       # Don't really publish if doing test-runs from within actions repository
       if: ${{ github.repository }} != "sebnozzi/minimicro-actions"
       uses: KikimoraGames/itch-publish@v0.0.3

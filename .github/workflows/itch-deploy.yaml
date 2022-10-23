@@ -39,7 +39,6 @@ jobs:
   prepare-assets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - uses: sebnozzi/minimicro-actions/.github/actions/build-minidisk@main
         with:
           main_file: ${{ inputs.minidisk_main_file }}
@@ -86,7 +85,6 @@ jobs:
     needs: build-webgl
     runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v3
       - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
         with:
           artifact_name: webgl-build
@@ -100,7 +98,6 @@ jobs:
     needs: build-windows
     runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v3
       - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
         with:
           artifact_name: windows-build
@@ -114,7 +111,6 @@ jobs:
     needs: build-mac
     runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v3
       - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
         with:
           artifact_name: mac-build
@@ -128,7 +124,6 @@ jobs:
     needs: build-linux
     runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v3
       - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
         with:
           artifact_name: linux-build

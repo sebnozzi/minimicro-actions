@@ -32,8 +32,8 @@ runs:
       shell: bash
 
     - name: List files
-      if: ${{ github.repository == 'sebnozzi/minimicro-actions' }}
-      run: ls -lr ./minimicro-web/MiniMicro
+      run: |
+        ls -lR ./
       shell: bash
 
     - name: Upload template via FTP

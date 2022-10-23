@@ -49,8 +49,8 @@ runs:
       if: ${{ github.repository != 'sebnozzi/minimicro-actions' }}
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-        server: ${{ secrets.ftp_host }}
-        username: ${{ secrets.ftp_username }}
-        password: ${{ secrets.ftp_password }}
+        server: ${{ inputs.ftp_host }}
+        username: ${{ inputs.ftp_username }}
+        password: ${{ inputs.ftp_password }}
         local-dir: ${{ inputs.artifact_data_folder }}
         server-dir: ${{ inputs.ftp_target_path }}

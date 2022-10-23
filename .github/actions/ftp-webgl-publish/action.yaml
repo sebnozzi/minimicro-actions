@@ -43,7 +43,7 @@ runs:
       if: ${{ inputs.page_title != '' }}
       run: |
         PAGE_TITLE="${{ inputs.page_title }}"
-        sed -i -e "s°<title>[^<]*°<title>$PAGE_TITLE</title>°g" ./MiniMicro/index.html
+        sed -i -e "s~<title>[^<]*~<title>$PAGE_TITLE</title>~g" ./MiniMicro/index.html
       shell: bash
 
     - name: Upload template via FTP

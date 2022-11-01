@@ -79,4 +79,4 @@ runs:
     - uses: actions/upload-artifact@v3
       with:
         name: windows-build
-        path: ./minimicro-win
+        path: ./minimicro-win/MiniMicro

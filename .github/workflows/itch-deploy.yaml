@@ -39,11 +39,11 @@ jobs:
   prepare-assets:
     runs-on: ubuntu-latest
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/build-minidisk@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/build-minidisk@feature/webgl-1.2-p2
         with:
           main_file: ${{ inputs.minidisk_main_file }}
           additional_entries: ${{ inputs.minidisk_additional_entries }}
-      - uses: sebnozzi/minimicro-actions/.github/actions/upload-boot-opts@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/upload-boot-opts@feature/webgl-1.2-p2
         with:
           boot_opts_path: ${{ inputs.boot_opts_path }}
 
@@ -53,13 +53,13 @@ jobs:
       needs: prepare-assets
       runs-on: ubuntu-latest    
       steps:
-        - uses: sebnozzi/minimicro-actions/.github/actions/build-webgl@main
+        - uses: sebnozzi/minimicro-actions/.github/actions/build-webgl@feature/webgl-1.2-p2
 
   build-windows:
     needs: prepare-assets
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/build-windows@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/build-windows@feature/webgl-1.2-p2
         with:
           custom_executable_name: ${{ inputs.custom_executable_name }}
 
@@ -67,7 +67,7 @@ jobs:
     needs: prepare-assets
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/build-mac@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/build-mac@feature/webgl-1.2-p2
         with:
           custom_executable_name: ${{ inputs.custom_executable_name }}
 
@@ -75,7 +75,7 @@ jobs:
     needs: prepare-assets
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/build-linux@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/build-linux@feature/webgl-1.2-p2
         with:
           custom_executable_name: ${{ inputs.custom_executable_name }}
 
@@ -85,7 +85,7 @@ jobs:
     needs: build-webgl
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@feature/webgl-1.2-p2
         with:
           artifact_name: webgl-build
           artifact_data_folder: ./minimicro-web
@@ -98,7 +98,7 @@ jobs:
     needs: build-windows
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@feature/webgl-1.2-p2
         with:
           artifact_name: windows-build
           artifact_data_folder: ./minimicro-win
@@ -111,7 +111,7 @@ jobs:
     needs: build-mac
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@feature/webgl-1.2-p2
         with:
           artifact_name: mac-build
           artifact_data_folder: ./minimicro-mac
@@ -124,7 +124,7 @@ jobs:
     needs: build-linux
     runs-on: ubuntu-latest    
     steps:
-      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@main
+      - uses: sebnozzi/minimicro-actions/.github/actions/itch-publish@feature/webgl-1.2-p2
         with:
           artifact_name: linux-build
           artifact_data_folder: ./minimicro-linux

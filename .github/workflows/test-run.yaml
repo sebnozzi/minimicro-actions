@@ -22,7 +22,7 @@ jobs:
       itch_io_api_key: ${{ secrets.TEST_SECRET }}
 
   publish-via-ftp:
-    uses: sebnozzi/minimicro-actions/.github/workflows/ftp-deploy.yaml@main
+    uses: sebnozzi/minimicro-actions/.github/workflows/ftp-web-deploy.yaml@main
     with:
       minidisk_main_file: test.ms
       ftp_host: "some-server.com"
